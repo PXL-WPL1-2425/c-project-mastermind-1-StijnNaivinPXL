@@ -40,7 +40,10 @@ namespace MasterMind
 
         private void OnClickCheckCodeBtn(object sender, RoutedEventArgs e)
         {
-
+            for (int i = 0; i < ComboBoxes.Length; i++)
+            {
+                CheckLabelWithCode(i);
+            }
         }
 
         private void SetupGame()
@@ -59,6 +62,20 @@ namespace MasterMind
         private void UpdateColorLabels(int i)
         {
             ColorLabels[i].Background = new SolidColorBrush(ToNetColor((TypeColors)ComboBoxes[i].SelectedItem));
+        }
+
+        private void CheckLabelWithCode(int codeIndex)
+        {
+            ColorLabels[codeIndex].BorderThickness = new Thickness(4);
+            TypeColors color = (TypeColors)ComboBoxes[codeIndex].SelectedItem;
+            if (colors.Contains(color))
+            {
+                ColorLabels[codeIndex].BorderBrush = new SolidColorBrush(Colors.Wheat);
+            }
+            if (colors[codeIndex] == color)
+            {
+                ColorLabels[codeIndex].BorderBrush = new SolidColorBrush(Colors.DarkRed);
+            }
         }
 
         /// <summary>
@@ -109,6 +126,11 @@ namespace MasterMind
                 Color2Cb.Items.Add(color);
                 Color3Cb.Items.Add(color);
                 Color4Cb.Items.Add(color);
+            }
+
+            foreach (ComboBox comboBox in ComboBoxes)
+            {
+                comboBox.SelectedIndex = random.Next(0, comboBox.Items.Count);
             }
         }
 
