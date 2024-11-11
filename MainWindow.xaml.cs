@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,8 +17,16 @@ namespace MasterMind
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Array, less memory allocation
+        // Ik schrijf comments naar mezelf in het Engels,
+        // Comments naar lectoren om vragen te stellen of uitleg te geven, schrijf ik in het Nederlands.
+        // Ik doe dit omdat ik verkies monolingual (eentalig) te coderen.
+
         private TypeColors[] colors = new TypeColors[4];
+
+        // Nullable zodat de compiler begrijpt dat ik deze variabellen
+        // Later een waarde geef.
+        private ComboBox[]? ComboBoxes;
+        private Label[]? ColorLabels;
 
         private Random random = new Random();
 
@@ -25,17 +34,19 @@ namespace MasterMind
         {
             InitializeComponent();
             // Ik hoop dat ik dit mag doen, ik verkies dit boven verbinden in XAML.
-            //CheckCodeBtn.Click += OnClickCheckCodeBtn;
+            CheckCodeBtn.Click += OnClickCheckCodeBtn;
             SetupGame();
         }
 
-        /*private void OnClickCheckCodeBtn(object sender, RoutedEventArgs e)
+        private void OnClickCheckCodeBtn(object sender, RoutedEventArgs e)
         {
 
-        }*/
+        }
 
         private void SetupGame()
         {
+            ComboBoxes = new[] { Color1Cb, Color2Cb, Color3Cb, Color4Cb };
+            ColorLabels = new[] { Color1Lbl, Color2Lbl, Color3Lbl, Color4Lbl };
             for (int i = 0; i < colors.Length; i++)
             {
                 //Typecasting int => enum:int
@@ -45,12 +56,51 @@ namespace MasterMind
             FillComboBoxes();
         }
 
+        private void UpdateColorLabels(int i)
+        {
+            ColorLabels[i].Background = new SolidColorBrush(ToNetColor((TypeColors)ComboBoxes[i].SelectedItem));
+        }
+
+        /// <summary>
+        /// Converts TypeColor enum values to proper .NET core Color objects.
+        /// </summary>
+        /// <param name="Color"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private Color ToNetColor(TypeColors Color)
+        {
+            switch (Color)
+            {
+                default:
+                    //Should not be possible, but makes the compiler happy.
+                    return Colors.Transparent;
+
+                case TypeColors.Blue:
+                    return Colors.Blue;
+
+                case TypeColors.Red:
+                    return Colors.Red;
+
+                case TypeColors.White:
+                    return Colors.White;
+
+                case TypeColors.Green:
+                    return Colors.Green;
+
+                case TypeColors.Orange:
+                    return Colors.Orange;
+
+                case TypeColors.Yellow:
+                    return Colors.Yellow;
+            }
+        }
+
         private void FillComboBoxes()
         {
-            Color1Cb.Items.Clear();
-            Color2Cb.Items.Clear();
-            Color3Cb.Items.Clear();
-            Color4Cb.Items.Clear();
+            foreach (ComboBox comboBox in ComboBoxes)
+            {
+                comboBox.Items.Clear();
+            }
 
             // Heel erg hacky, maar ik verkies wat meer leesbaarheid over strings te gebruiken.
             foreach (TypeColors color in (TypeColors[])Enum.GetValues(typeof(TypeColors)))
@@ -68,6 +118,26 @@ namespace MasterMind
         }
 
         private string ColorString => $"({string.Join(", ", colors)})";
+
+        private void Color4Cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateColorLabels(3);
+        }
+
+        private void Color3Cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateColorLabels(2);
+        }
+
+        private void Color2Cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateColorLabels(1);
+        }
+
+        private void Color1Cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateColorLabels(0);
+        }
     }
 
     // Inside a namespace, easier access.

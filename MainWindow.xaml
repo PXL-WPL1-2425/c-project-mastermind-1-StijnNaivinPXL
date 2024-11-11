@@ -6,12 +6,16 @@
         xmlns:local="clr-namespace:MasterMind"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <ComboBox x:Name="Color1Cb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="199" Margin="10,10,0,0"/>
-        <ComboBox x:Name="Color2Cb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" Margin="214,10,0,0"/>
-        <ComboBox x:Name="Color3Cb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="187" Margin="421,10,0,0"/>
-        <ComboBox x:Name="Color4Cb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="177" Margin="613,10,0,0"/>
+    <Grid Background="#FF636363">
+        <ComboBox x:Name="Color1Cb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="199" Margin="10,10,0,0" SelectionChanged="Color1Cb_SelectionChanged"/>
+        <ComboBox x:Name="Color2Cb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" Margin="214,10,0,0" SelectionChanged="Color2Cb_SelectionChanged"/>
+        <ComboBox x:Name="Color3Cb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="187" Margin="421,10,0,0" SelectionChanged="Color3Cb_SelectionChanged"/>
+        <ComboBox x:Name="Color4Cb" VerticalAlignment="Top" Margin="613,10,10,0" SelectionChanged="Color4Cb_SelectionChanged"/>
         <Button x:Name="CheckCodeBtn" Content="Check Code" Margin="297,201,297,0" Height="40" VerticalAlignment="Top"/>
+        <Label x:Name="Color1Lbl" Content="" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Height="74" Width="199"/>
+        <Label x:Name="Color2Lbl" Content="" HorizontalAlignment="Left" Margin="214,37,0,0" VerticalAlignment="Top" Height="74" Width="202"/>
+        <Label x:Name="Color3Lbl" Content="" HorizontalAlignment="Left" Margin="421,37,0,0" VerticalAlignment="Top" Height="74" Width="187"/>
+        <Label x:Name="Color4Lbl" Content="" Margin="613,37,10,0" VerticalAlignment="Top" Height="74"/>
 
     </Grid>
 </Window>
